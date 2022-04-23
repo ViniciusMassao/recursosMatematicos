@@ -1,6 +1,6 @@
 float x, y, angle;
-float step = 0;
-//ArrayList<Float> pontosAngle = new ArrayList<>();
+float step = 2;
+int dir = 0;
 ArrayList<Float> pontosX = new ArrayList<>();
 ArrayList<Float> pontosY = new ArrayList<>();
 int index = 0;
@@ -19,31 +19,28 @@ void draw() {
 }
 
 void update() {
-  System.out.println("1.x = " + mouseX + ", y = " + mouseY);
   
-  if(pontosX.size() == index + 1){
-        System.out.println("Reiniciar");
-        System.out.println("2.x = " + pontosX.get(index) + ", y = " + pontosY.get(index));
-        index = 0;
-  }
-  
-  if(pontosX.size() != 0){
-    angle = atan((mouseY - pontosY.get(index)) / (mouseX - pontosX.get(index)));
-    
-    if(pontosX.get(index) == x && pontosY.get(index) == y){
-      index += 1;
-      angle = atan((mouseY - pontosY.get(index)) / (mouseX - pontosX.get(index)));
+  if(pontosX.size() > 0){
+    if(pontosX.size() == index + 1){
+      index = 0;
     }
+    
+    if(dist(x,y,pontosX.get(index), pontosY.get(index)) <= 5 && pontosX.size() > 1) index += 1;
+    else if (pontosX.size() == 1) {
+      dir = 0;
+    }
+    
+    if(x > pontosX.get(index)) dir = -1;
+    else dir = 1;
+    
+    angle = atan((pontosY.get(index) - y) / (pontosX.get(index) - x));
+  }
+  else{
+    dir = 0;
   }
   
-  x += step;
-  y += calcY(step);
-  if (x > 1024 || x < 0 || y > 768 || y < 0) {
-    angle = -angle;
-    if (x > 1024 || x < 0)
-      step = -step;
-  }
-  //System.out.println("2.x = " + x + ", y = " + y);
+  x += step * dir;
+  y += calcY(step * dir);
 }
 
 float calcY(float dx) {
@@ -51,14 +48,6 @@ float calcY(float dx) {
 }
 
 void mouseClicked() {
-  //pontosAngle.add(atan((mouseY - y) / (mouseX - x)));
   pontosX.add(float(mouseX));
   pontosY.add(float(mouseY));
-  
-  step = 4;
-  
-  if (mouseX > x)
-    step = 1;
-  else
-    step = -1;
 }
