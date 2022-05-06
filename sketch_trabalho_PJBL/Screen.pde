@@ -19,4 +19,6 @@ public class Screen implements ScreenInterface {
   void mousePress() {
     exit = true;
   }
+  
+  void keyPress(){}
 }

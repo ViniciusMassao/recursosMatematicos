@@ -1,13 +1,25 @@
 public class Phase implements ScreenInterface {
   
   private boolean exit = false;
-  Circle myCircle;
-  ArrayList<Circle> enemies;
-  ArrayList<Plataform> plataformas;
+  private int level;
+  private Circle player = new Circle(150, 600, 100, 1);
+  private ArrayList<Circle> enemies = new ArrayList<>();
+  private ArrayList<Plataform> plataforms = new ArrayList<>();
+  private Key level_key = new Key(100, 160, 25, 25);
+  private Door level_door = new Door(925, 300, 65, 80);
   
-  Phase(Circle myCircle, ArrayList<Circle> enemies) {
-    this.myCircle = myCircle;
-    this.enemies = enemies;
+  Phase(int level) {
+    this.level = level;
+    plataforms.add(new PlataformStatic(100, 500, 200, 20));
+    plataforms.add(new PlataformStatic(100, 200, 200, 20));
+    plataforms.add(new PlataformStatic(-20, 768, 1300, -20));
+    plataforms.add(new PlataformStatic(650, 400, 1300, -20));
+    plataforms.add(new PlataformNonStatic(350, 250, 200, 20, 80));
+    enemies.add(new Circle(1000, 500, 40, 200));
+  }
+  
+  boolean playerAlive(){
+    return this.player.alive();
   }
   
   boolean update() {
@@ -15,11 +27,25 @@ public class Phase implements ScreenInterface {
   }
   
   void render(float elapsedTime) {
-    myCircle.update(elapsedTime);
-    myCircle.render();
+    for (Plataform plataform: plataforms){
+      if(plataform.update()) plataform.render();
+    }
+    
+    if(level_key.update(player)) level_key.render();
+    
+    if(!level_door.update(level_key, player)) level_door.render();
+    
+    if(player.update(elapsedTime, plataforms)) player.render();
+    
+    else System.out.println("Player morto");
   }
   
-  void mousePress() {
-    exit = true;
+  void keyPress(){
+    player.keyPressed();
+  }
+  
+  void mousePress(){
+    //exit = true;
+    player.mousePressed(); 
   }
 }
