@@ -6,16 +6,21 @@ public class Circle {
   float dx = 0;
   float dy = 0;
   private float vel;
-  private float h = 300;
+  private float h = 250;
   private float d = 250;
   private boolean state = false;
   private int life = 3;
+  private int dir = 1;
+  private ArrayList<Shot> gun = new ArrayList<>();
   
   Circle(float x, float y, float d, float vel) {
     this.x = x;
     this.y = y;
     this.d = d;
     this.vel = vel;
+    for(int i=0; i<5; i++) {
+      gun.add(new Shot());
+    }
   }
   
   boolean alive(){
@@ -36,47 +41,13 @@ public class Circle {
     
     //x += vel * elapsedTime;
     x += vel;
-    System.out.println(jumping);
     
     if (!jumping){ // enquanto nao estiver saltando
       if (vel >= 0){
-        
-        for (Plataform plataform: plataforms){
-          ArrayList<Float> plataformValues = plataform.getPlataformValues();
-          float pX = plataformValues.get(0);
-          float pY = plataformValues.get(1);
-          float pW = plataformValues.get(2);
-          float pH = plataformValues.get(3);
-          if (x > pX + pW && x < pX + pW + 15  && y > pY + pH - 20 && y > pY + pH + 20){ // detectar queda na plataforma para a direita
-            jumping = true;
-            dy = calc_dy(0); 
-            y = 748; // posição "zero" para y
-          }
-          else if(x > pX && x < pX + pW && y - dy + 15 > pY && y - dy + 15 < pY + pH && plataform.movingPlataform()){
-            y = pY - 15;
-          }
-          
-        }
-        
+        verifyFall(plataforms);
       }
       else{
-        
-        for (Plataform plataform: plataforms){
-          ArrayList<Float> plataformValues = plataform.getPlataformValues();
-          float pX = plataformValues.get(0);
-          float pY = plataformValues.get(1);
-          float pW = plataformValues.get(2);
-          float pH = plataformValues.get(3);
-          if (x < pX && x > pX - 15  && y > pY + pH - 20 && y > pY + pH + 20){ // detectar queda na plataforma para a esquerda
-            jumping = true;
-            dy = calc_dy(0); 
-            y = 748; // posição "zero" para y
-          }
-          else if(x > pX && x < pX + pW && y - dy + 15 > pY && y - dy + 15 < pY + pH && plataform.movingPlataform()){
-            y = pY - 15;
-          }
-        }
-        
+        verifyFall(plataforms);
       }
     }
     else if (jumping) { // ao saltar...
@@ -91,19 +62,7 @@ public class Circle {
           dy = 0;
         }
         else if (dx > 0) { // colisao com plataforma
-        
-          for (Plataform plataform: plataforms){
-            ArrayList<Float> plataformValues = plataform.getPlataformValues();
-            float pX = plataformValues.get(0);
-            float pY = plataformValues.get(1);
-            float pW = plataformValues.get(2);
-            float pH = plataformValues.get(3);
-            if (x > pX && x < pX + pW && y - dy + 15 > pY && y - dy + 15 < pY + pH){ // detectar colisao com plataforma para a direita
-              jumping = false;
-              y = pY - 15;
-              dy = 0;
-            }
-          }
+          plataformColision(plataforms);
         }
       }
       else{ // logica para a esquerda
@@ -116,19 +75,7 @@ public class Circle {
           dy = 0;
         }
         else if (dx < 0){
-          
-          for (Plataform plataform: plataforms){
-            ArrayList<Float> plataformValues = plataform.getPlataformValues();
-            float pX = plataformValues.get(0);
-            float pY = plataformValues.get(1);
-            float pW = plataformValues.get(2);
-            float pH = plataformValues.get(3);
-            if (x > pX && x < pX + pW && y - dy + 15 > pY && y - dy + 15 < pY + pH){ // detectar colisao com plataforma para a direita
-              jumping = false;
-              y = pY - 15;
-              dy = 0;
-            }
-          }
+          plataformColision(plataforms);
         }
       }
     }
@@ -146,9 +93,53 @@ public class Circle {
       float ds = dist(x, y, c.x, c.y);
       if (ds < d + c.d)
         return c;
-  }
-    
+    }
     return null;
+  }
+  
+  boolean plataformColision(ArrayList<Plataform> plataforms){
+    for (Plataform plataform: plataforms){
+      ArrayList<Float> plataformValues = plataform.getPlataformValues();
+      float pX = plataformValues.get(0);
+      float pY = plataformValues.get(1);
+      float pW = plataformValues.get(2);
+      float pH = plataformValues.get(3);
+      if (x > pX && x < pX + pW && y - dy + 15 > pY && y - dy + 15 < pY + pH){
+        jumping = false;
+        y = pY - 15;
+        dy = 0;
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  boolean verifyFall(ArrayList<Plataform> plataforms){
+    for (Plataform plataform: plataforms){
+      ArrayList<Float> plataformValues = plataform.getPlataformValues();
+      float pX = plataformValues.get(0);
+      float pY = plataformValues.get(1);
+      float pW = plataformValues.get(2);
+      float pH = plataformValues.get(3);
+      if (x > pX + pW && x < pX + pW + 15  && y > pY - 20 && y < pY + pH + 20){
+        jumping = true;
+        dy = calc_dy(0); 
+        y = 733; // posição "zero" para y
+        return true;
+      }
+      else if (x > pX - 15 && x < pX && y > pY - 20 && y < pY + pH + 20){
+        jumping = true;
+        dy = calc_dy(0); 
+        y = 733; // posição "zero" para y
+        return true;
+      }
+      else if(x > pX && x < pX + pW && y > pY - 20 && y < pY + pH + 20 && plataform.movingPlataform()){
+        y = pY - 15;
+        return true;
+      }
+   }
+   
+   return false;
   }
   
   float getX(){
@@ -163,18 +154,32 @@ public class Circle {
     this.state = state;
   }
   
-  void keyPressed(){
-    if(key == ' '){
-      vel = -vel; 
+  Shot shoot() {
+    if (gun.size() > 0) {
+      Shot shot = gun.get(0);
+      shot.shoot(x, y, dir);
+      gun.remove(0);
+      
+      return shot;
     }
+    
+    return null;
   }
   
-  void mousePressed() {
-    if (!jumping) {
+  void keyPressed(){
+    if(key == 'a' || key == 'A'){
+      vel = -vel; 
+    }
+    
+    if (!jumping && key == ' ') {
       if (vel >= 0) dx = -d/2;
       else dx = d/2;
       
       jumping = true;
     }
+  }
+  
+  void mousePressed() {
+    
   }
 }
