@@ -18,16 +18,9 @@ void draw() {
   clear();
   float elapsedTime = (millis() - startTime) / 1000.0f;
   if (actualScreen.update()) {
-    if (screenIndex == 0) {
+    if (screenIndex == 0 || screenIndex == 1) {
       screenIndex++;
       actualScreen = screens.get(screenIndex);
-    }
-    else if (screenIndex == 1){
-      //boolean alive = actualScreen.playerAlive();
-      //if (!alive){
-      //  screenIndex++;
-      //  actualScreen = screens.get(screenIndex);
-      //}
     }
   }
   actualScreen.render(elapsedTime);

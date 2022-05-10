@@ -14,7 +14,7 @@ public class Door {
   }
   
   boolean update(Key level_key, Circle player) {
-    if (level_key.getKeyValue() && colisionPlayer(player)){
+    if (!level_key.getKeyValue() && colisionPlayer(player)){
        exit = true;
     }
     
@@ -22,13 +22,14 @@ public class Door {
   }
   
   void render() {
+    fill(150, 75, 0);
     rect(x, y, w, h);
   }
   
   boolean colisionPlayer(Circle player){ 
-    if (dist(x,y, player.getX(), player.getY()) <= 5){
-       return true;  
-     }
+    float playerX = player.getX();
+    float playerY = player.getY();
+    if(playerX < x + w && playerX > x && playerY > y && playerY < y + h) return true;
      
      return false;
   }

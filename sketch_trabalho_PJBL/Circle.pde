@@ -1,14 +1,13 @@
 public class Circle {
   
-  float x;
-  float y;
-  boolean jumping = true;
-  float dx = 0;
-  float dy = 0;
+  private float x;
+  private float y;
+  private boolean jumping = true;
+  private float dx = 0;
+  private float dy = 0;
   private float vel;
   private float h = 250;
   private float d = 250;
-  private boolean state = false;
   private int life = 3;
   private int dir = 1;
   private ArrayList<Shot> gun = new ArrayList<>();
@@ -29,12 +28,11 @@ public class Circle {
   }
   
   void render() {
-    circle(x, y - dy, 30);
-    fill(255, 255, 255);
+    fill(0, 0, 255);
+    circle(x, y - dy, 30);    
   }
   
   boolean update(float elapsedTime, ArrayList<Plataform> plataforms) {
-    System.out.println("x = "+ x +", y = " + y);
     if (life <= 0){ // morto
       return false; 
     }
@@ -57,10 +55,15 @@ public class Circle {
         dx += vel;
         dy = calc_dy(dx);
       
-        if (dx >= (d/2)) { // para salto
+        if (dx >= (d/2) && !plataformColision(plataforms)) { // continua o salto caso nao tenha plataforma
+          verifyFall(plataforms);
+        }
+        
+        else if (dx >= (d/2)) { // para salto
           jumping = false;
           dy = 0;
         }
+        
         else if (dx > 0) { // colisao com plataforma
           plataformColision(plataforms);
         }
@@ -150,13 +153,11 @@ public class Circle {
    return this.y; 
   }
   
-  void hit(boolean state) {
-    this.state = state;
-  }
-  
   Shot shoot() {
     if (gun.size() > 0) {
       Shot shot = gun.get(0);
+      if (vel < 0) dir = -1;
+      else dir = 1;
       shot.shoot(x, y, dir);
       gun.remove(0);
       
@@ -179,7 +180,5 @@ public class Circle {
     }
   }
   
-  void mousePressed() {
-    
-  }
+  void mousePressed() {}
 }

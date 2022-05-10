@@ -12,6 +12,7 @@ public class Screen implements ScreenInterface {
   }
   
   void render(float elapsedTime) {
+    fill(255,255,255);
     textSize(20);
     text(title, 100, 100);
   }

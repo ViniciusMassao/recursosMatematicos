@@ -17,6 +17,7 @@ public class PlataformStatic implements Plataform {
   };
   
   void render(){
+    fill(255,255,255);
     rect(this.x, this.y, this.w, this.h); 
   };
   

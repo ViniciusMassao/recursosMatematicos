@@ -12,7 +12,7 @@ public class Shot{
   boolean update(float deltaTime) {
     if (!onGun) {
       //x += dir * vel * deltaTime;
-      x += dir * vel;
+      x += dir * vel/4;
     }
     if (x > 1021 || x < 3) {
       return false;
@@ -23,7 +23,8 @@ public class Shot{
   
   void render() {
     if (!onGun) {
-      circle(x, y, 5);
+      fill(255,230,0);
+      circle(x, y, 7);
     }
   }
   

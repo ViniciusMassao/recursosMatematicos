@@ -14,23 +14,22 @@ public class Key {
   }
   
   boolean update(Circle player) {
-    if (colisionPlayer(player)){
-      level_key_render = false; 
-    }
+    if (colisionPlayer(player)) level_key_render = false;
     
     return this.level_key_render;
   }
   
   void render() {
+    fill(255,255,0);
     rect(x, y, w, h);
   }
   
   boolean colisionPlayer(Circle player){ 
-    if (dist(x,y, player.getX(), player.getY()) <= 5){
-       return true;  
-     }
-     
-     return false;
+    float playerX = player.getX();
+    float playerY = player.getY();
+    if(playerX < x + w && playerX > x && playerY > y && playerY < y + h) return true;
+    
+    return false;
   }
   
   boolean getKeyValue(){
