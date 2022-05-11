@@ -4,6 +4,7 @@ public class Enemy {
   private float y;
   private int life = 1;
   private int dir = -1;
+  private boolean alive= true;
   private ArrayList<Shot> gun = new ArrayList<>();
   
   Enemy(float x, float y) {
@@ -14,22 +15,25 @@ public class Enemy {
     }
   }
   
-  boolean alive(){
-    if (life < 0) return true;
-    return false;
-  }
-  
   void render() {
     fill(255, 0, 0);
     circle(x, y, 30);    
   }
   
-  boolean update(Shot shot) {
-    if (life <= 0){ // morto
-      return false; 
+  boolean update(Shot shot, float elapsedTime, Circle player) {
+    if(shot != null){
+      float sX = shot.getX();
+      float sY = shot.getY();
+      System.out.println("LIFE = " + life);
+      System.out.println("DIST = " + dist(sX, sY, x, y));
+      if(dist(sX, sY, x, y) <= 261){
+        life --;
+      }
     }
-    return true;
-    
+    if (life <= 0){ // morto
+      alive = false;
+    }
+    return alive;
   }
   
   float getX(){

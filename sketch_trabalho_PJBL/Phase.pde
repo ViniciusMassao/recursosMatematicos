@@ -2,12 +2,14 @@ public class Phase implements ScreenInterface {
   
   private boolean exit = false;
   private int level;
-  private Circle player = new Circle(150, 600, 100, 1);
+  private Circle player = new Circle(10, 740, 100, 1);
   private ArrayList<Shot> shots = new ArrayList<>();
+  private ArrayList<Shot> shotsEnemy = new ArrayList<>();
   private ArrayList<Plataform> plataforms = new ArrayList<>();
   private Key level_key = new Key(160, 170, 25, 25);
   private Door level_door = new Door(925, 310, 65, 80);
-  private Enemy enemy = new Enemy(800, 380);
+  private Enemy enemy = new Enemy(800, 390);
+  //private Enemy enemy = new Enemy(100, 735);
   
   Phase(int level) {
     this.level = level;
@@ -38,6 +40,7 @@ public class Phase implements ScreenInterface {
       exit = true;
     }
     
+    // tiro player
     Shot shotToRemove = null;
     for(Shot shot: shots) {
       if (!shot.update(elapsedTime)) {
@@ -52,7 +55,36 @@ public class Phase implements ScreenInterface {
       shot.render();
     }
     
-    if(enemy.update(shotToRemove)) enemy.render();
+    if(enemy.update(shotToRemove, elapsedTime, player)) {
+      enemy.render();
+      
+      // tiro inimigo
+      //System.out.println(elapsedTime);
+      float playerX = player.getX();
+      float playerY = player.getY();
+      float enemyX = enemy.getX();
+      float enemyY = enemy.getY();
+      System.out.println(dist(playerX, playerY,enemyX, enemyY));
+      if(dist(playerX, playerY,enemyX, enemyY) <= 400){
+        Shot shot = enemy.shoot(player);
+        if (shot != null) {
+          shots.add(shot);
+        }
+      }
+      Shot shotToRemoveEnemy = null;
+      for(Shot shot: shotsEnemy) {
+        if (!shot.update(elapsedTime)) {
+          shotToRemoveEnemy = shot;
+        }
+      }
+      if (shotToRemoveEnemy != null) {
+        shots.remove(shotToRemoveEnemy);
+      }
+      
+      for(Shot shot: shotsEnemy) {
+        shot.render();
+      }
+    }
   }
   
   void keyPress(){

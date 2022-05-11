@@ -41,6 +41,10 @@ public class Circle {
     x += vel;
     
     if (!jumping){ // enquanto nao estiver saltando
+      if (x > 1024 || x < 0){
+        vel = -vel;
+      }
+      
       if (vel >= 0){
         verifyFall(plataforms);
       }

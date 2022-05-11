@@ -34,4 +34,12 @@ public class Shot{
     this.dir = dir;
     onGun = false;
   }
+  
+  float getX(){
+   return x; 
+  }
+  
+  float getY(){
+    return y;
+  }
 }
