@@ -1,6 +1,6 @@
 public class Shot{
   
-  private final int vel = 200;
+  private final int vel = 50;
   
   private float x = 0;
   private float y = 0;

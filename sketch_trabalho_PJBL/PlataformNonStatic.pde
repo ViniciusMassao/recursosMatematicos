@@ -18,7 +18,6 @@ public class PlataformNonStatic implements Plataform {
   }
   
   boolean update(){
-    System.out.println("x = " + x);
     if (x >= x_original + 25 || x < x_original){
       step = -step; 
     }

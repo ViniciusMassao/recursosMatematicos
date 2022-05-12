@@ -8,7 +8,7 @@ public class Circle {
   private float vel;
   private float h = 250;
   private float d = 250;
-  private int life = 3;
+  private int life = 2;
   private int dir = 1;
   private ArrayList<Shot> gun = new ArrayList<>();
   
@@ -22,9 +22,8 @@ public class Circle {
     }
   }
   
-  boolean alive(){
-    if (life < 0) return true;
-    return false;
+  int checkLife(){
+    return this.life;
   }
   
   void render() {
@@ -62,12 +61,10 @@ public class Circle {
         if (dx >= (d/2) && !plataformColision(plataforms)) { // continua o salto caso nao tenha plataforma
           verifyFall(plataforms);
         }
-        
         else if (dx >= (d/2)) { // para salto
           jumping = false;
           dy = 0;
         }
-        
         else if (dx > 0) { // colisao com plataforma
           plataformColision(plataforms);
         }
@@ -77,7 +74,10 @@ public class Circle {
          dx += vel;
          dy = calc_dy(dx);
          
-         if (dx <= -d/2) { // para o salto
+        if (dx <= -d/2 && !plataformColision(plataforms)) { // continua o salto caso nao tenha plataforma
+          verifyFall(plataforms);
+        }
+        else if (dx <= -d/2) { // para o salto
           jumping = false;
           dy = 0;
         }
@@ -95,13 +95,14 @@ public class Circle {
     return (-4 * h / (d * d)) * dx * dx + h;
   }
   
-  Circle verifyCollision(ArrayList<Circle> enemies) {
-    for(Circle c: enemies) {
-      float ds = dist(x, y, c.x, c.y);
-      if (ds < d + c.d)
-        return c;
+  void checkCollisionShot(Shot enemyShot) {
+    float enemyShotX = enemyShot.getX();
+    float enemyShotY = enemyShot.getY();
+    //System.out.println("LIFE = " + life);
+    System.out.println("DIST = " + dist(enemyShotX, enemyShotY, x, y));
+    if(dist(enemyShotX, enemyShotY, x, y) <= 261) {
+      life --;
     }
-    return null;
   }
   
   boolean plataformColision(ArrayList<Plataform> plataforms){

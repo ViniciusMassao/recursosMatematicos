@@ -24,8 +24,8 @@ public class Enemy {
     if(shot != null){
       float sX = shot.getX();
       float sY = shot.getY();
-      System.out.println("LIFE = " + life);
-      System.out.println("DIST = " + dist(sX, sY, x, y));
+      //System.out.println("LIFE = " + life);
+      //System.out.println("DIST = " + dist(sX, sY, x, y));
       if(dist(sX, sY, x, y) <= 261){
         life --;
       }

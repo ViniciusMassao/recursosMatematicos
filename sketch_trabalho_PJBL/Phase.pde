@@ -8,8 +8,8 @@ public class Phase implements ScreenInterface {
   private ArrayList<Plataform> plataforms = new ArrayList<>();
   private Key level_key = new Key(160, 170, 25, 25);
   private Door level_door = new Door(925, 310, 65, 80);
-  private Enemy enemy = new Enemy(800, 390);
-  //private Enemy enemy = new Enemy(100, 735);
+  private Enemy enemy = new Enemy(900, 385);
+  //private Enemy enemy = new Enemy(500, 735);
   
   Phase(int level) {
     this.level = level;
@@ -36,7 +36,6 @@ public class Phase implements ScreenInterface {
     
     if(player.update(elapsedTime, plataforms)) player.render();
     else{
-      System.out.println("Player morto");
       exit = true;
     }
     
@@ -64,20 +63,32 @@ public class Phase implements ScreenInterface {
       float playerY = player.getY();
       float enemyX = enemy.getX();
       float enemyY = enemy.getY();
-      System.out.println(dist(playerX, playerY,enemyX, enemyY));
-      if(dist(playerX, playerY,enemyX, enemyY) <= 400){
+      //System.out.println("DIST = "+dist(playerX, playerY,enemyX, enemyY));
+      if(dist(playerX, playerY,enemyX, enemyY) <= 200){
         Shot shot = enemy.shoot(player);
         if (shot != null) {
-          shots.add(shot);
+          shotsEnemy.add(shot);
         }
       }
+      
       Shot shotToRemoveEnemy = null;
+      int aux = 0;
       for(Shot shot: shotsEnemy) {
         if (!shot.update(elapsedTime)) {
           shotToRemoveEnemy = shot;
+          //if (shotToRemoveEnemy != null) {
+          //  player.checkCollisionShot(shotToRemoveEnemy);
+          //  //System.out.println("Morri");
+          //  shots.remove(shotToRemoveEnemy);
+          //}
         }
+        //System.out.println("INDICE = " + aux);
+        aux++;
       }
+      
       if (shotToRemoveEnemy != null) {
+        player.checkCollisionShot(shotToRemoveEnemy);
+        //System.out.println("LIFE = " + player.checkLife());
         shots.remove(shotToRemoveEnemy);
       }
       
