@@ -6,6 +6,8 @@ public class Player{
   private boolean downPress = false;
   private PVector pos;
   private PVector dir;
+  private float r = 50;
+  private int life = 3;
   
   Player(float x, float y){
     this.pos = new PVector(x, y);
@@ -14,10 +16,16 @@ public class Player{
  
  void render(){
     fill(0,255,0);
-    circle(pos.x, pos.y, 50); 
+    circle(pos.x, pos.y, r); 
  }
  
  boolean update(float elapsedTime){
+   if (life <= 0){
+     return false;
+   }
+   
+   colisionGameLimits();
+   
     if (leftPress) {
       dir.rotate(HALF_PI * elapsedTime);
     }
@@ -40,6 +48,20 @@ public class Player{
     pos.add(m);
     
    return true;
+ }
+ 
+ void colisionGameLimits(){
+    //size(1024, 768);
+   // colisao parte inferior direita
+   if (pos.x > width) {
+      pos.x = 0;
+    } else if (pos.x < 0) {
+      pos.x = width;
+    } else if (pos.y > height) {
+      pos.y = 0;
+    } else if (pos.y < 0) {
+      pos.y = height;
+    }
  }
  
  float getX(){

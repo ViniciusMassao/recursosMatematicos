@@ -3,6 +3,7 @@ public class Enemy{
   private PVector pos;
   private PVector dir;
   private boolean seek;
+  private int life = 3;
   
   Enemy(float x, float y, boolean seek, float vel){
     this.vel = vel;
@@ -21,6 +22,18 @@ public class Enemy{
     float playerX = player.getX();
     float playerY = player.getY();
     
+    // logica de tiro
+    //float d = dist(pos.x, pos.y, playerX, playerY);
+    //if (d < 20) {
+    //  life--;
+    //}
+    
+    if(life <= 0){
+      return false;
+    }
+    
+    colisionGameLimits();
+    
     PVector playerVector = new PVector(playerX, playerY);
     dir = PVector.sub(playerVector, pos).normalize();
     
@@ -35,10 +48,22 @@ public class Enemy{
     }
     
     pos.add(m);
-    float d = dist(pos.x, pos.y, playerX, playerY);
-    if (d < 20) {
-      dir.set(0, 0);
-    }
+
     return true;
   }
+  
+  void colisionGameLimits(){
+    //size(1024, 768);
+   // colisao parte inferior direita
+   if (pos.x > width) {
+      pos.x = 0;
+    } else if (pos.x < 0) {
+      pos.x = width;
+    } else if (pos.y > height) {
+      pos.y = 0;
+    } else if (pos.y < 0) {
+      pos.y = height;
+    }
+ }
+ 
 }

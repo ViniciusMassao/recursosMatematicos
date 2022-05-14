@@ -16,6 +16,7 @@ void draw() {
   startTime = millis();
   
   clear();
+  
   if(player.update(elapsedTime)){
     player.render(); 
   }
