@@ -38,7 +38,7 @@ public class Enemy{
       dir = PVector.sub(playerVector, pos).normalize();
       
       PVector m;
-      if(seek){
+      if(seek){  
         // Movimento de perseguição
         m = PVector.mult(dir, vel * elapsedTime); 
       }
