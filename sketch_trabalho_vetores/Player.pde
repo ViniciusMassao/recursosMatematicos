@@ -8,10 +8,14 @@ public class Player{
   private PVector dir;
   private float r = 50;
   private int life = 3;
+  private ArrayList<Shot> gun = new ArrayList<>();
   
   Player(float x, float y){
     this.pos = new PVector(x, y);
     this.dir = new PVector(0, -1);
+    for(int i=0; i<20; i++) {
+      gun.add(new Shot());
+    }
   }
  
  void render(){
@@ -51,8 +55,6 @@ public class Player{
  }
  
  void colisionGameLimits(){
-    //size(1024, 768);
-   // colisao parte inferior direita
    if (pos.x > width) {
       pos.x = 0;
     } else if (pos.x < 0) {
@@ -71,6 +73,21 @@ public class Player{
  float getY(){
    return this.pos.y; 
  }
+ 
+ PVector getPos(){
+   return this.pos;
+ }
+ 
+ Shot shoot(Enemy enemy) {
+   if (gun.size() > 0) {
+      Shot shot = gun.get(0);
+      shot.shoot(pos.x, pos.y, enemy);
+      gun.remove(0);
+      
+      return shot;
+    } 
+    return null;
+  }
  
  void keyPressed() {
     if (key == CODED) {

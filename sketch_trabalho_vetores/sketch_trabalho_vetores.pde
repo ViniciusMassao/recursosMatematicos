@@ -1,37 +1,41 @@
 float startTime = 0;
-Player player = new Player(500, 700);
-ArrayList<Enemy> enemies = new ArrayList<>();
-Enemy enemy_seek = new Enemy(0, 768,true, 80);
-Enemy enemy_escape = new Enemy(500, 500,false, 50);
-
+ArrayList<ScreenInterface> screens = new ArrayList<>();
+ScreenInterface actualScreen = null;
+int screenIndex = 0;
+  
 void setup() {
   size(1024, 768);
+  screens.add(new Screen("Início de Jogo"));
+  screens.add(new Phase(1));
+  screens.add(new Screen("Fim de Jogo"));
+  
+  actualScreen = screens.get(screenIndex);
   startTime = millis();
-  enemies.add(enemy_seek);
-  enemies.add(enemy_escape);
 }
 
 void draw() {
+  clear();
   float elapsedTime = (millis() - startTime)/1000.0f;
   startTime = millis();
   
-  clear();
-  
-  if(player.update(elapsedTime)){
-    player.render(); 
+  if (actualScreen.update()) {
+    if (screenIndex == 0 || screenIndex == 1) {
+      screenIndex++;
+      actualScreen = screens.get(screenIndex);
+    }
   }
+  actualScreen.render(elapsedTime);
   
-  for(Enemy enemy: enemies){
-    if(enemy.update(elapsedTime, player)){
-      enemy.render();
-    } 
-  }
 }
 
 void keyPressed() {
-  player.keyPressed();
+  actualScreen.keyPress();
 }
 
 void keyReleased() {
-  player.keyReleased();
+  actualScreen.keyRelease();
+}
+
+void mousePressed(){
+  actualScreen.mousePress();
 }
