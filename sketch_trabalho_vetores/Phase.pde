@@ -4,8 +4,8 @@ public class Phase implements ScreenInterface {
   private boolean exit = false;
   private Player player = new Player(500, 700);
   private ArrayList<Enemy> enemies = new ArrayList<>();
-  private Enemy enemy_seek = new Enemy(0, 768,true, 80);
-  private Enemy enemy_escape = new Enemy(500, 500,false, 50);
+  private Enemy enemy_seek = new Enemy(400, 700,true, 80);
+  private Enemy enemy_escape = new Enemy(500, 500,false, 80);
   private ArrayList<Shot> shots = new ArrayList<>();
   
   Phase(int level) {
@@ -20,6 +20,7 @@ public class Phase implements ScreenInterface {
   }
   
   void render(float elapsedTime){
+    System.out.println(elapsedTime);
     if(player.update(elapsedTime)){
       player.render(); 
     }
@@ -40,7 +41,7 @@ public class Phase implements ScreenInterface {
     }
     
     for(Enemy enemy: enemies){
-      if(enemy.update(elapsedTime, player)){
+      if(enemy.update(elapsedTime, player, enemy_seek)){
         enemy.render();
       } 
     } 

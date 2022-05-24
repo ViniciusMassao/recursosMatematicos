@@ -1,5 +1,5 @@
 public class Player{
-  private float vel = 150;
+  private float vel = 80;
   private boolean leftPress = false;
   private boolean rightPress = false;
   private boolean upPress = false;
