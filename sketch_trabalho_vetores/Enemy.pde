@@ -5,19 +5,26 @@ public class Enemy{
   private boolean seek;
   private int life = 3;
   private float av = 270;
+  private float r = 50;
   private boolean flag = false;
+  private ArrayList<Shot> gun = new ArrayList<>();
   
   Enemy(float x, float y, boolean seek, float vel){
     this.vel = vel;
     this.pos = new PVector(x, y);
     this.dir = new PVector(1, -1);
     this.seek = seek;
+    if(seek){
+      for(int i=0; i<20; i++) {
+        gun.add(new Shot());
+      }
+    }
   }
   
   void render(){
     if(seek) fill(255,0,0);
     else fill(255,100,0);
-    circle(pos.x, pos.y, 50);
+    circle(pos.x, pos.y, r);
   }
   
   boolean update(float elapsedTime, Player player, Enemy enemy_seek){
@@ -41,21 +48,14 @@ public class Enemy{
         float dist = dist(pos.x, pos.y, playerX, playerY);
       
         if(angle < av/2 && dist < 300){
-          //System.out.println("Esta dentro do angulo, " + angle);
           
           PVector playerVector = new PVector(playerX, playerY);
           dir = PVector.sub(playerVector, pos).normalize();
           
           // Movimento de perseguição
           m = PVector.mult(dir, vel * elapsedTime); 
-          
-          // fazer o seeker atirar
-          
-          // CODIGO
         }
         else{
-          
-          //System.out.println("Nao esta dentro do angulo, " + angle);
           dir.rotate(1 * elapsedTime);
           
           m = PVector.mult(dir, vel * elapsedTime);  
@@ -111,13 +111,22 @@ public class Enemy{
    return true;
  }
  
+ boolean engageShotDist(Player player){
+   float playerX = player.getX();
+   float playerY = player.getY();
+   float angle = calcAngle(player);
+   float dist = dist(pos.x, pos.y, playerX, playerY);
+   
+   if(angle < av/2 && dist < 300){return true;}
+   else {return false;}
+ }
+ 
  PVector getPos(){return this.pos;}
  
  void checkColision(Shot shot){
    float d = dist(shot.getX(), shot.getY(), pos.x, pos.y);
-   if(d < 50){
+   if(d < r){
      life--;
-     //System.out.println("Dano");
    }
  }
  
@@ -128,6 +137,17 @@ public class Enemy{
     float cosAngle = d / (v1.mag()*dir.mag());
     
     return degrees(acos(cosAngle));
+  }
+  
+  Shot shoot(Player player) {
+    if (gun.size() > 0) {
+      Shot shot = gun.get(0);
+      shot.shoot(pos.x, pos.y, player.getPos());
+      gun.remove(0);
+      
+      return shot;
+    } 
+    return null;
   }
  
 }

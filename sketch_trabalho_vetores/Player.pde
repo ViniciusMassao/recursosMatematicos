@@ -1,5 +1,5 @@
 public class Player{
-  private float vel = 80;
+  private float vel = 100;
   private boolean leftPress = false;
   private boolean rightPress = false;
   private boolean upPress = false;
@@ -66,22 +66,31 @@ public class Player{
     }
  }
  
- float getX(){
-   return this.pos.x; 
+ boolean alive(){
+   if(life <= 0){
+     return false;
+   }
+   return true;
  }
  
- float getY(){
-   return this.pos.y; 
- }
+ float getX(){return this.pos.x;}
  
- PVector getPos(){
-   return this.pos;
+ float getY(){return this.pos.y;}
+ 
+ PVector getPos(){return this.pos;}
+ 
+ void checkColision(Shot shot){
+   float d = dist(shot.getX(), shot.getY(), pos.x, pos.y);
+   if(d < r){
+     life--;
+     System.out.println("Life = "+ life);
+   }
  }
  
  Shot shoot(Enemy enemy) {
    if (gun.size() > 0) {
       Shot shot = gun.get(0);
-      shot.shoot(pos.x, pos.y, enemy);
+      shot.shoot(pos.x, pos.y, enemy.getPos());
       gun.remove(0);
       
       return shot;

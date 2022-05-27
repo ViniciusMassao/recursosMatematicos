@@ -8,7 +8,7 @@ public class Shot{
   
   Shot() {}
   
-  boolean update(float elapsedTime, Enemy enemy) {
+  boolean update(float elapsedTime, PVector targetPos) {
     if (!onGun) {
       PVector m = PVector.mult(dir, vel * elapsedTime);
       pos.add(m);
@@ -19,7 +19,7 @@ public class Shot{
     if (pos.y < 0 || pos.y > height){
       return false;
     }
-    if (checkColisionEnemy(enemy)){
+    if (checkColision(targetPos)){
       return false; 
     }
     return true;
@@ -32,31 +32,22 @@ public class Shot{
     }
   }
   
-  void shoot(float x, float y, Enemy enemy) {
+  void shoot(float x, float y, PVector posV) {
     this.pos.x = x;
     this.pos.y = y;
     
-    PVector enemyPos = enemy.getPos();
-    PVector enemyV = new PVector(enemyPos.x, enemyPos.y);
-    this.dir = PVector.sub(enemyV, pos).normalize();
+    this.dir = PVector.sub(posV, pos).normalize();
     
     onGun = false;
   }
   
-  boolean checkColisionEnemy(Enemy enemy) {
-    PVector enemyPos = enemy.getPos();
-    float d = dist(enemyPos.x, enemyPos.y, pos.x, pos.y);
-    if(d < 49){
-      return true;
-   }
-   return false;
+  boolean checkColision(PVector targetPos) {
+    float d = dist(targetPos.x, targetPos.y, pos.x, pos.y);
+    if(d < 49) return true;
+    else return false;
   }
   
-  float getX(){
-   return pos.x; 
-  }
+  float getX(){return pos.x;}
   
-  float getY(){
-    return pos.y;
-  }
+  float getY(){return pos.y;}
 }
