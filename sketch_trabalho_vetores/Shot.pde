@@ -20,6 +20,7 @@ public class Shot{
       return false;
     }
     if (checkColision(targetPos)){
+      System.out.println("Entrei");
       return false; 
     }
     return true;
@@ -43,7 +44,10 @@ public class Shot{
   
   boolean checkColision(PVector targetPos) {
     float d = dist(targetPos.x, targetPos.y, pos.x, pos.y);
-    if(d < 49) return true;
+    if(d < 49) {
+      System.out.println(d);
+      return true;
+    }
     else return false;
   }
   

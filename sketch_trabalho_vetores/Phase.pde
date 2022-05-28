@@ -57,7 +57,7 @@ public class Phase implements ScreenInterface {
       }
     }
     
-    if (shotToRemove != null) {
+    if (enemyShotToRemove != null) {
       enemyShots.remove(enemyShotToRemove);
     }
       
@@ -83,8 +83,8 @@ public class Phase implements ScreenInterface {
   
   void mousePress(){
     Shot shot = player.shoot(enemy_escape);
-      if (shot != null) {
-        shots.add(shot);
+    if (shot != null) {
+      shots.add(shot);
     } 
   }
 
