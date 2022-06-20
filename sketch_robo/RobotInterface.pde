@@ -1,8 +1,8 @@
 public interface RobotInterface {
-  void update();
+  void update(int level, AnglesRobot phaseAngles);
   void render();
   void keyPress();
   void keyRelease();
   void mousePress();
-  void generateRandomPos();
+  boolean checkPlayerAngles(AnglesRobot phaseAngles);
 }

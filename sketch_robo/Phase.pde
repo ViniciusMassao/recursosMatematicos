@@ -4,18 +4,26 @@ public class Phase implements ScreenInterface {
   private boolean exit = false;
   private RobotPlayer player = new RobotPlayer();
   private RobotToImitate robot = new RobotToImitate();
+  private AnglesRobot phaseAngles;
   
-  Phase(int level) {
+  Phase(int level, AnglesRobot phaseAngles) {
     this.level = level;
+    this.phaseAngles = phaseAngles;
   }
   
   boolean update(){
-    player.update();
-    robot.update();
+    if (player.checkPlayerAngles(phaseAngles)){
+      exit = true;
+    }
+    
+    player.update(level, phaseAngles);
+    robot.update(level, phaseAngles);
+    
     return exit;
   }
   
   void render(){
+    System.out.println("angulos = " + phaseAngles);
     String levelTxt = "Level: " + level;
     fill(255,255,255);
     textSize(20);
@@ -34,7 +42,7 @@ public class Phase implements ScreenInterface {
   }
   
   void mousePress(){
-    exit = true;
+    //exit = true;
   }
 
 }
