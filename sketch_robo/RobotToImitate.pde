@@ -113,4 +113,8 @@ public class RobotToImitate implements RobotInterface {
   void mousePress() {}
   
   boolean checkPlayerAngles(AnglesRobot phaseAngles){return false;}
+  
+  int getPontos(){return 0;}
+  
+  void addPontos(int pontos){}
 }

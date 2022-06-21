@@ -7,7 +7,7 @@ public class Screen implements ScreenInterface {
     this.title = title;
   }
   
-  boolean update() {
+  boolean update(int passedTime) {
     return exit;
   }
   
@@ -24,4 +24,12 @@ public class Screen implements ScreenInterface {
   void keyPress(){}
   
   void keyRelease(){}
+  
+  void setText(int pontos){
+    this.title = this.title + ". Pontuação final = " + pontos;
+  }
+  
+  int getPlayerPontos(){
+    return 0;
+  }
 }

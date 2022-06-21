@@ -4,10 +4,13 @@ ArrayList<ScreenInterface> screens = new ArrayList<>();
 ArrayList<AnglesRobot> phasesAngles = new ArrayList<>();
 ScreenInterface actualScreen = null;
 int screenIndex = 0;
-int points = 0;
+int savedTime = 0;
+int playerPoints;
   
 void setup() {
   size(1024, 768);
+  
+  savedTime = millis();
   
   AnglesRobot phase1Pos = new AnglesRobot(
     0.5,
@@ -70,10 +73,21 @@ void setup() {
 void draw() {
   clear();
   
-  if (actualScreen.update()) {
+  int passedTime = millis() - savedTime;
+  
+  if (actualScreen.update(passedTime)) {
     if (screenIndex >= 0) {
       screenIndex++;
+      passedTime = 0;
       actualScreen = screens.get(screenIndex);
+    }
+    
+    if(screens.size() - 2 == screenIndex){
+      playerPoints = actualScreen.getPlayerPontos();
+    }
+    
+    if(screens.size() - 1 == screenIndex){
+      actualScreen.setText(playerPoints);
     }
   }
   actualScreen.render();

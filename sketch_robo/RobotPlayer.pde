@@ -16,6 +16,8 @@ public class RobotPlayer implements RobotInterface {
   private float rightUpperLegAngle = 0;
   private float rightLowerLegAngle = 0;
   
+  private int pontos = 0;
+  
   RobotPlayer() {}
   
   void update(int level, AnglesRobot phaseAngles) {
@@ -32,6 +34,77 @@ public class RobotPlayer implements RobotInterface {
     
     //System.out.println("rightUpperLegAngle = " + rightUpperLegAngle);
     //System.out.println("rightLowerLegAngle = " + rightLowerLegAngle);
+    
+    if(leftUpperArmAngle >= 1.5){
+      leftUpperArmAngle = 1.5;
+    }
+    if(leftUpperArmAngle <= -1.5){
+      leftUpperArmAngle = -1.5;
+    }
+    
+    if(leftLowerArmAngle >= 1.5){
+      leftLowerArmAngle = 1.5;
+    }
+    if(leftLowerArmAngle <= -1.5){
+      leftLowerArmAngle = -1.5;
+    }
+    
+    if(leftHandAngle >= 1.5){
+      leftHandAngle = 1.5;
+    }
+    if(leftHandAngle <= -1.5){
+      leftHandAngle = -1.5;
+    }
+    
+    if(rightUpperArmAngle >= 1.5){
+      rightUpperArmAngle = 1.5;
+    }
+    if(rightUpperArmAngle <= -1.5){
+      rightUpperArmAngle = -1.5;
+    }
+    
+    if(rightLowerArmAngle >= 1.5){
+      rightLowerArmAngle = 1.5;
+    }
+    if(rightLowerArmAngle <= -1.5){
+      rightLowerArmAngle = -1.5;
+    }
+    
+    if(rightHandAngle >= 1.5){
+      rightHandAngle = 1.5;
+    }
+    if(rightHandAngle <= -1.5){
+      rightHandAngle = -1.5;
+    }
+    
+    if(leftUpperLegAngle >= 1.0){
+      leftUpperLegAngle = 1.0;
+    }
+    if(leftUpperLegAngle <= -2.0){
+      leftUpperLegAngle = -2.0;
+    }
+    
+    if(leftLowerLegAngle >= 0.0){
+      leftLowerLegAngle = 0.0;
+    }
+    if(leftLowerLegAngle <= -1.5){
+      leftLowerLegAngle = -1.5;
+    }
+    
+    if(rightUpperLegAngle >= 2.0){
+      rightUpperLegAngle = 2.0;
+    }
+    if(rightUpperLegAngle <= -1.0){
+      rightUpperLegAngle = -1.0;
+    }
+    
+    if(rightLowerLegAngle >= 1.5){
+      rightLowerLegAngle = 1.5;
+    }
+    if(rightLowerLegAngle <= 0.0){
+      rightLowerLegAngle = 0.0;
+    }
+    
   }
   
   void render() {
@@ -225,5 +298,13 @@ public class RobotPlayer implements RobotInterface {
       return true;
     else 
       return false;
+  }
+  
+  void addPontos(int pontos){
+    this.pontos += pontos;
+  }
+  
+  int getPontos(){
+    return pontos;
   }
 }

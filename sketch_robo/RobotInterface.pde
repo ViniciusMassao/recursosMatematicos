@@ -5,4 +5,6 @@ public interface RobotInterface {
   void keyRelease();
   void mousePress();
   boolean checkPlayerAngles(AnglesRobot phaseAngles);
+  int getPontos();
+  void addPontos(int pontos);
 }
