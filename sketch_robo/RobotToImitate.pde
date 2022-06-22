@@ -18,7 +18,7 @@ public class RobotToImitate implements RobotInterface {
   
   RobotToImitate() {}
   
-  void update(int level, AnglesRobot phaseAngles) {
+  void update(int level, AnglesRobot phaseAngles, int passedTime) {
     this.leftUpperArmAngle = phaseAngles.getLeftUpperArmAngle();
     this.leftLowerArmAngle = phaseAngles.getLeftLowerArmAngle();
     this.leftHandAngle = phaseAngles.getLeftHandAngle();

@@ -6,6 +6,7 @@ public class Phase implements ScreenInterface {
   private RobotToImitate robot = new RobotToImitate();
   private AnglesRobot phaseAngles;
   private int limitTime;
+  private int passedTime;
   
   Phase(int level, AnglesRobot phaseAngles) {
     this.level = level;
@@ -22,8 +23,8 @@ public class Phase implements ScreenInterface {
   }
   
   boolean update(int passedTime){
+    this.passedTime = passedTime/1000;
     if (player.checkPlayerAngles(phaseAngles)){
-      player.addPontos(passedTime);
       exit = true;
     }
     
@@ -31,19 +32,17 @@ public class Phase implements ScreenInterface {
       exit = true;
     }
     
-    System.out.println("Tempo em milisegundos " + passedTime);
-    
-    player.update(level, phaseAngles);
-    robot.update(level, phaseAngles);
+    player.update(level, phaseAngles, passedTime);
+    robot.update(level, phaseAngles, passedTime);
     
     return exit;
   }
   
   void render(){
-    String levelTxt = "Level: " + level;
+    String levelTxt = "Level: " + level + "    Tempo Limite: " + limitTime/1000 + "     Tempo: " + passedTime;
     fill(255,255,255);
     textSize(20);
-    text(levelTxt, 100, 100);
+    text(levelTxt, 30, 30);
     
     player.render();
     robot.render();
@@ -58,7 +57,7 @@ public class Phase implements ScreenInterface {
   }
   
   void mousePress(){
-    exit = true;
+    //exit = true;
   }
   
   void setText(int pontos){}

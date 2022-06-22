@@ -1,5 +1,5 @@
 public interface RobotInterface {
-  void update(int level, AnglesRobot phaseAngles);
+  void update(int level, AnglesRobot phaseAngles, int passedTime);
   void render();
   void keyPress();
   void keyRelease();

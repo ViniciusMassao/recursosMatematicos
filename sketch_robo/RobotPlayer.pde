@@ -20,7 +20,7 @@ public class RobotPlayer implements RobotInterface {
   
   RobotPlayer() {}
   
-  void update(int level, AnglesRobot phaseAngles) {
+  void update(int level, AnglesRobot phaseAngles, int passedTime) {
     //System.out.println("leftUpperArmAngle = " + leftUpperArmAngle);
     //System.out.println("leftLowerArmAngle = " + leftLowerArmAngle);
     //System.out.println("leftHandAngle = " + leftHandAngle);
@@ -34,6 +34,8 @@ public class RobotPlayer implements RobotInterface {
     
     //System.out.println("rightUpperLegAngle = " + rightUpperLegAngle);
     //System.out.println("rightLowerLegAngle = " + rightLowerLegAngle);
+    
+    this.pontos = passedTime;
     
     if(leftUpperArmAngle >= 1.5){
       leftUpperArmAngle = 1.5;
@@ -305,6 +307,6 @@ public class RobotPlayer implements RobotInterface {
   }
   
   int getPontos(){
-    return pontos;
+    return 90 - pontos/1000;
   }
 }
