@@ -1,6 +1,6 @@
 public class Shot{
   
-  private final int vel = 50;
+  private final int vel = 3;
   
   private float x = 0;
   private float y = 0;
@@ -9,13 +9,24 @@ public class Shot{
   
   Shot() {}
   
-  boolean update(float deltaTime) {
+  boolean update(Circle player, Enemy enemy) {
     if (!onGun) {
-      //x += dir * vel * deltaTime;
-      x += dir * vel/4;
+      x += dir * vel;
     }
+    
     if (x > 1021 || x < 3) {
       return false;
+    }
+    
+    if(player != null){
+      if(checkColision(player.getX(), player.getY())){
+        return false;
+      }    
+    }
+    else if(enemy != null){
+      if(checkColision(enemy.getX(), enemy.getY())){
+        return false;
+      }
     }
     
     return true;
@@ -33,6 +44,12 @@ public class Shot{
     this.y = y;
     this.dir = dir;
     onGun = false;
+  }
+  
+  boolean checkColision(float inputX, float inputY) {
+    float d = dist(inputX, inputY, x, y);
+    if(d < 29) return true;
+    else return false;
   }
   
   float getX(){

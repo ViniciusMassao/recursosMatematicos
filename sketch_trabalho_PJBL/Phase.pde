@@ -10,6 +10,7 @@ public class Phase implements ScreenInterface {
   private Door level_door = new Door(925, 310, 65, 80);
   private Enemy enemy = new Enemy(900, 385);
   //private Enemy enemy = new Enemy(500, 735);
+  private int auxShot = 0;
   
   Phase(int level) {
     this.level = level;
@@ -42,7 +43,7 @@ public class Phase implements ScreenInterface {
     // tiro player
     Shot shotToRemove = null;
     for(Shot shot: shots) {
-      if (!shot.update(elapsedTime)) {
+      if (!shot.update(null, enemy)) {
         shotToRemove = shot;
       }
     }
@@ -54,17 +55,17 @@ public class Phase implements ScreenInterface {
       shot.render();
     }
     
-    if(enemy.update(shotToRemove, elapsedTime, player)) {
+    if(enemy.update(shotToRemove)) {
       enemy.render();
       
       // tiro inimigo
-      //System.out.println(elapsedTime);
       float playerX = player.getX();
       float playerY = player.getY();
       float enemyX = enemy.getX();
       float enemyY = enemy.getY();
-      //System.out.println("DIST = "+dist(playerX, playerY,enemyX, enemyY));
-      if(dist(playerX, playerY,enemyX, enemyY) <= 200){
+      
+      auxShot++;
+      if(dist(playerX, playerY,enemyX, enemyY) <= 250 && auxShot%10 == 0){
         Shot shot = enemy.shoot(player);
         if (shot != null) {
           shotsEnemy.add(shot);
@@ -72,30 +73,21 @@ public class Phase implements ScreenInterface {
       }
       
       Shot shotToRemoveEnemy = null;
-      int aux = 0;
       for(Shot shot: shotsEnemy) {
-        if (!shot.update(elapsedTime)) {
+        if (!shot.update(player, null)) {
           shotToRemoveEnemy = shot;
-          //if (shotToRemoveEnemy != null) {
-          //  player.checkCollisionShot(shotToRemoveEnemy);
-          //  //System.out.println("Morri");
-          //  shots.remove(shotToRemoveEnemy);
-          //}
+            player.checkCollisionShot(shotToRemoveEnemy);
         }
-        //System.out.println("INDICE = " + aux);
-        aux++;
       }
       
       if (shotToRemoveEnemy != null) {
-        player.checkCollisionShot(shotToRemoveEnemy);
-        //System.out.println("LIFE = " + player.checkLife());
-        shots.remove(shotToRemoveEnemy);
+        shotsEnemy.remove(shotToRemoveEnemy);
       }
       
       for(Shot shot: shotsEnemy) {
         shot.render();
       }
-    }
+    }  
   }
   
   void keyPress(){

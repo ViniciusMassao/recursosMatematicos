@@ -10,7 +10,7 @@ public class Enemy {
   Enemy(float x, float y) {
     this.x = x;
     this.y = y;
-    for(int i=0; i<50; i++) {
+    for(int i=0; i<200; i++) {
       gun.add(new Shot());
     }
   }
@@ -20,13 +20,11 @@ public class Enemy {
     circle(x, y, 30);    
   }
   
-  boolean update(Shot shot, float elapsedTime, Circle player) {
+  boolean update(Shot shot) {
     if(shot != null){
       float sX = shot.getX();
       float sY = shot.getY();
-      //System.out.println("LIFE = " + life);
-      //System.out.println("DIST = " + dist(sX, sY, x, y));
-      if(dist(sX, sY, x, y) <= 261){
+      if(dist(sX, sY, x, y) <= 30){
         life --;
       }
     }
