@@ -32,4 +32,6 @@ public class Screen implements ScreenInterface {
   int getPlayerPontos(){
     return 0;
   }
+  
+  boolean isGameOver(){return false;}
 }

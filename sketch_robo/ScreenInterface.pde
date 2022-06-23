@@ -6,4 +6,5 @@ public interface ScreenInterface {
   void mousePress();
   void setText(int pontos);
   int getPlayerPontos();
+  boolean isGameOver();
 }

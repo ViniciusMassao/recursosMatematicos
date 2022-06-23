@@ -4,6 +4,7 @@ ScreenInterface actualScreen = null;
 int screenIndex = 0;
 int savedTime = 0;
 int playerPoints = 0;
+int passedTime = 0;
   
 void setup() {
   size(1024, 768);
@@ -65,17 +66,28 @@ void setup() {
 void draw() {
   clear();
   
-  int passedTime = millis() - savedTime;
+  if (screenIndex != 0) {
+    passedTime = millis() - savedTime;
+  }
+  
+  if(actualScreen.isGameOver()){
+    int index = screens.size() - 1;
+    actualScreen = screens.get(index);
+  }
   
   if (actualScreen.update(passedTime)) {
     if (screenIndex >= 0) {
+      if (screenIndex == 0){
+        savedTime = millis(); 
+      }
+      
       if(screens.size() - 2 == screenIndex){
         playerPoints = actualScreen.getPlayerPontos();
-        System.out.println("playerPoints = "+playerPoints);
       }
+      
       screenIndex++;
-      passedTime = 0;
       actualScreen = screens.get(screenIndex);
+      
       if(screens.size() - 1 == screenIndex){
         actualScreen.setText(playerPoints);  
       }

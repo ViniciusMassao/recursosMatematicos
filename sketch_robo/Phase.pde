@@ -7,6 +7,7 @@ public class Phase implements ScreenInterface {
   private AnglesRobot phaseAngles;
   private int limitTime;
   private int passedTime;
+  private boolean gameOver = false;
   
   Phase(int level, AnglesRobot phaseAngles) {
     this.level = level;
@@ -29,7 +30,7 @@ public class Phase implements ScreenInterface {
     }
     
     if(limitTime < passedTime){
-      exit = true;
+      gameOver = true;
     }
     
     player.update(level, phaseAngles, passedTime);
@@ -64,5 +65,9 @@ public class Phase implements ScreenInterface {
   
   int getPlayerPontos(){
     return player.getPontos();
+  }
+  
+  boolean isGameOver(){
+    return this.gameOver;
   }
 }
