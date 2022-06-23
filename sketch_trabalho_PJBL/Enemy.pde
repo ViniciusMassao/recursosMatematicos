@@ -29,6 +29,8 @@ public class Enemy {
       }
     }
     if (life <= 0){ // morto
+      x = 0; 
+      y = 0;
       alive = false;
     }
     return alive;

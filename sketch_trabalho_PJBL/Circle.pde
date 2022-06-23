@@ -17,7 +17,7 @@ public class Circle {
     this.y = y;
     this.d = d;
     this.vel = vel;
-    for(int i=0; i<5; i++) {
+    for(int i = 0; i < 8; i++) {
       gun.add(new Shot());
     }
   }
